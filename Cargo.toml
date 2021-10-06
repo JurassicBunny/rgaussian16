@@ -9,6 +9,5 @@ edition = "2018"
 serde_test   = { version = "1.0.117" }
 
 [dependencies]
-serde        = { version = "1.0.130" }
-serde_derive = { version = "1.0.130" }
-serde_yaml   = { version = "0.8.21"  }
+serde        = { version = "1.0.130", features = ["derive"] }
+serde_yaml   = { version = "0.8.21"                         }
