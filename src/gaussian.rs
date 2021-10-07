@@ -24,7 +24,7 @@ pub struct GaussInput {
 
 impl GaussInput {
     /// takes a `.yaml` config file and parses the data. Returns a GaussInput with which Gaussian16
-    /// input files may be generated via the `to_string()` method implemented via the display
+    /// input files may be generated using the `to_string()` method implemented via the display
     /// trait.
     pub fn new(config: File) -> Result<GaussInput, GaussError> {
         let config = GaussInput::parse_config(config)?;
@@ -45,7 +45,7 @@ impl GaussInput {
     // If provided, generate gpu input string. Otherwise, return cpu only input.
     fn display(&self) -> String {
         match &self.config.gpu {
-            Some(_gpu) => self.gpu_output(),
+            Some(_) => self.gpu_output(),
             None => self.cpu_output(),
         }
     }
