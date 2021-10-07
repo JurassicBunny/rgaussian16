@@ -2,18 +2,20 @@ use std::error::Error;
 use std::fmt::Display;
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct GaussError {
-    kind: GaussErrorKind,
+pub struct GaussError {
+    pub(crate) kind: GaussErrorKind,
 }
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum GaussErrorKind {
+    ParaseError,
     UnKnownError,
 }
 
 impl GaussError {
     fn __display(&self) -> &str {
         match self.kind {
+            GaussErrorKind::ParaseError => "failed to parse config file",
             GaussErrorKind::UnKnownError => "an unknown error occurred",
         }
     }
