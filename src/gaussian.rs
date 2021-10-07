@@ -4,6 +4,7 @@ use serde::Deserialize;
 use std::fmt::Display;
 use std::fs::File;
 
+// Configuration for Gaussian input File. In serde_yaml, a none value is represented with `~`
 #[derive(Debug, Clone, Deserialize)]
 pub(crate) struct GaussConfig {
     pub(crate) mem: String,
@@ -22,11 +23,15 @@ pub struct GaussInput {
 }
 
 impl GaussInput {
+    /// takes a `.yaml` config file and parses the data. Returns a GaussInput with which Gaussian16
+    /// input files may be generated via the `to_string()` method implemented via the display
+    /// trait.
     pub fn new(config: File) -> Result<GaussInput, GaussError> {
         let config = GaussInput::parse_config(config)?;
         Ok(GaussInput { config })
     }
 
+    // parse the configuration file and return either a GaussConfig or an Error.
     fn parse_config(config: File) -> Result<GaussConfig, GaussError> {
         match serde_yaml::from_reader(config) {
             Ok(config) => Ok(config),
@@ -36,6 +41,8 @@ impl GaussInput {
         }
     }
 
+    // Gaussian16 may be run with gpus. This function checks the config file for Some(gpu) string.
+    // If provided, generate gpu input string. Otherwise, return cpu only input.
     fn display(&self) -> String {
         match &self.config.gpu {
             Some(_gpu) => self.gpu_output(),
@@ -43,6 +50,7 @@ impl GaussInput {
         }
     }
 
+    // generates gpu input string
     fn gpu_output(&self) -> String {
         let result = format!(
             "%Mem={}\n%Cpu={}\n%Gpu={}\n%Check={}\n#p {}\n\n {}\n\n{} {}",
@@ -58,6 +66,7 @@ impl GaussInput {
         result
     }
 
+    // generates cpu input string
     fn cpu_output(&self) -> String {
         let result = format!(
             "%Mem={}\n%Cpu={}\n%Check={}\n#p {}\n\n {}\n\n{} {}",
