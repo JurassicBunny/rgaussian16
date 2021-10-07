@@ -1,4 +1,4 @@
-pub use gaussian::GaussInput;
+pub use crate::gaussian::GaussInput;
 
 mod error;
 mod gaussian;
