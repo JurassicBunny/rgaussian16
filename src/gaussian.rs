@@ -4,7 +4,18 @@ use serde::Deserialize;
 use std::fmt::Display;
 use std::fs::File;
 
-// Configuration for Gaussian input File. In serde_yaml, a none value is represented with `~`
+// Configuration for Gaussian input file. In serde_yaml, a none value is represented with `~`
+// typical input file looks like:
+//
+// %Mem=134GB
+// %cpu=0-39
+// %checkpoint=test.chk
+// #p BP86/Def2svp/W06 SCF=XQC
+//
+// title card
+//
+// 0 1
+// molecular coords
 #[derive(Debug, Clone, Deserialize)]
 pub(crate) struct GaussConfig {
     pub(crate) mem: String,
