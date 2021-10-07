@@ -8,8 +8,8 @@ use std::fs::File;
 // typical input file looks like:
 //
 // %Mem=134GB
-// %cpu=0-39
-// %checkpoint=test.chk
+// %Cpu=0-39
+// %Checkpoint=test.chk
 // #p BP86/Def2svp/W06 SCF=XQC
 //
 // title card
