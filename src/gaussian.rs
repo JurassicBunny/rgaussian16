@@ -36,7 +36,7 @@ impl GaussInput {
         }
     }
 
-    fn __display(&self) -> String {
+    fn display(&self) -> String {
         match &self.config.gpu {
             Some(_gpu) => self.gpu_output(),
             None => self.cpu_output(),
@@ -75,6 +75,6 @@ impl GaussInput {
 
 impl Display for GaussInput {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        self.__display().fmt(f)
+        self.display().fmt(f)
     }
 }
