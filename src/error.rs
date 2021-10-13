@@ -12,7 +12,6 @@ pub struct GaussError {
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum GaussErrorKind {
     ParaseError,
-    UnKnownError,
 }
 
 impl GaussError {
@@ -20,7 +19,6 @@ impl GaussError {
     fn display(&self) -> &str {
         match self.kind {
             GaussErrorKind::ParaseError => "failed to parse configuration file",
-            GaussErrorKind::UnKnownError => "an unknown error occurred",
         }
     }
 }
