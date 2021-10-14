@@ -1,9 +1,12 @@
 use crate::error::ConfigError;
 use crate::validate::Validator;
 
-use serde::Deserialize;
 use std::fmt::Display;
 use std::fs::File;
+use std::io::prelude::*;
+use std::process::Command;
+
+use serde::Deserialize;
 
 // Configuration for Gaussian input file. In serde_yaml, a none value is represented with `~`
 // typical input file looks like:
@@ -29,18 +32,66 @@ pub(crate) struct GaussConfig {
     pub(crate) multiplicity: u64,
 }
 
+/// Interface for the Gaussian16 quantum chemical package.
+///
+/// Utilizing a yaml configuration file, generate a Gaussian object.
+/// This structure provides functions for auto generating input, and
+/// running the external program `g16`.
+///
+/// As configuration is tied to Gaussian, multiple Gaussian objects may
+/// be use to extract different result form Gaussian16. This greatly
+/// simplifies the processes of interfacing with the quantum chemical
+/// package.
+///
+/// # Example
+///
+/// Generate Gaussian object write input and run `g16`
+///
+/// --------------------------------------------------------
+/// ```rust
+/// use rgaussian16::Gaussion;
+///
+/// fn main() {
+///     let input_file = std::fs::File::create("input.com").unwrap();
+///     let output_file = std::fs::File::create("output.out").unwrap();
+///
+///     let job1_config = std::fs::File::open("config.yaml").unwrap();
+///     let job1_interface = Gaussion::new(config).unwrap();
+///
+///     job1_interface.gen_input(input_file);
+///     job1_interface.run(input_file, output_file);
+/// }
+/// ```
+/// --------------------------------------------------------
+///
+///
+///
 #[derive(Debug, Clone)]
-pub struct GaussInput {
+pub struct Gaussian {
     config: GaussConfig,
 }
 
-impl GaussInput {
-    /// takes a `.yaml` config file and parses the data. Returns a GaussInput with which Gaussian16
-    /// input files may be generated using the `to_string()` method implemented via the display
-    /// trait.
-    pub fn new(config: File) -> Result<GaussInput, ConfigError> {
-        let config = GaussInput::parse_config(config)?;
-        Ok(GaussInput { config })
+impl Gaussian {
+    /// Takes a `.yaml` config file and parses the data. Returns a Gaussian
+    /// object with which a user may interface with the Gaussian16 quantum
+    /// chemical package.
+    pub fn new(config: File) -> Result<Gaussian, ConfigError> {
+        let config = Gaussian::parse_config(config)?;
+        Ok(Gaussian { config })
+    }
+
+    /// Generate input for the Gaussian16 quantum chemical package.
+    ///
+    /// NOTE: function does not write molecular coordinates. Instead,
+    /// it is up to the user to attach coordinates and any other additional
+    /// information such as ModRedundant coords to the end of the generated
+    /// output.
+    pub fn gen_input(self, mut file: File) -> Result<(), std::io::Error> {
+        file.write_all(self.to_string().as_bytes())
+    }
+
+    pub fn run(input: File, output: File) -> Result<(), std::io::Error> {
+        Command::new("g16").stdin()
     }
 
     // parse the configuration file and return either a GaussConfig or an Error.
@@ -92,7 +143,7 @@ impl GaussInput {
     }
 }
 
-impl Display for GaussInput {
+impl Display for Gaussian {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.display().fmt(f)
     }
