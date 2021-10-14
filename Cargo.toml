@@ -11,3 +11,4 @@ serde_test   = { version = "1.0.117" }
 [dependencies]
 serde        = { version = "1.0.130", features = ["derive"] }
 serde_yaml   = { version = "0.8.21"                         }
+regex 	     = { version = "1.5.4" 					        }
