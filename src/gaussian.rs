@@ -44,6 +44,7 @@ impl GaussInput {
     }
 
     // parse the configuration file and return either a GaussConfig or an Error.
+    // Once parsed validate the input for string vars via the Validator.
     fn parse_config(config: File) -> Result<GaussConfig, ConfigError> {
         let config: GaussConfig = serde_yaml::from_reader(config)?;
         Validator::validate_config(&config)?;
