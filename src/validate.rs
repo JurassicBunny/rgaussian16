@@ -36,7 +36,7 @@ impl Validator {
     // Config cpu must take the form of a digit followed by a dash,
     // and finally another digit
     fn validate_cpu(config: &GaussConfig) -> Result<(), ConfigError> {
-        let cpu_regex = Regex::new(r"^[0-9]-[0-9]").unwrap();
+        let cpu_regex = Regex::new(r"^[0-9]+(?i)(kb|gb|tb|mb)").unwrap();
         let error = ConfigError::new(ConfigErrorKind::CPU);
         let to_match = config.cpu.to_string();
 
