@@ -106,18 +106,18 @@ impl Gaussian {
     // If provided, generate gpu input string. Otherwise, return cpu only input.
     fn display(&self) -> String {
         match &self.config.gpu {
-            Some(_) => self.gpu_output(),
+            Some(gpu) => self.gpu_output(gpu),
             None => self.cpu_output(),
         }
     }
 
     // generates gpu input string
-    fn gpu_output(&self) -> String {
+    fn gpu_output(&self, gpu: &String) -> String {
         let result = format!(
             "%Mem={}\n%Cpu={}\n%Gpu={}\n%Check={}\n{}\n\n {}\n\n{} {}",
             self.config.mem,
             self.config.cpu,
-            self.config.gpu.as_ref().unwrap(),
+            gpu,
             self.config.checkpoint,
             self.config.key_words,
             self.config.title,

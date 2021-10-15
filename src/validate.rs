@@ -3,10 +3,10 @@ use crate::gaussian::GaussConfig;
 
 use regex::{Regex, RegexSet};
 
-// Struct to house the config validation requirements
+// Structure to house the config validation requirements
 pub(crate) struct Validator {}
 
-// After genertating the gaussian config from serde_yaml,
+// After generating the gaussian config from serde_yaml,
 // validate the strings obtained for mem, cpu, gpu and
 // key words.
 impl Validator {
@@ -16,7 +16,6 @@ impl Validator {
         Self::validate_key_words(config)?;
 
         // Validate the gpu string only if one was provided
-        // within the config file.
         if config.gpu.is_some() {
             Self::validate_gpu(config)?;
         };
@@ -35,9 +34,9 @@ impl Validator {
     }
 
     // Config cpu must take the form of a digit followed by a dash,
-    // and finaly another digit
+    // and finally another digit
     fn validate_cpu(config: &GaussConfig) -> Result<(), ConfigError> {
-        let cpu_regex = Regex::new(r"[0-9]-[0-9]").unwrap();
+        let cpu_regex = Regex::new(r"^[0-9]-[0-9]").unwrap();
         let error = ConfigError::new(ConfigErrorKind::CPU);
         let to_match = config.cpu.to_string();
 
@@ -45,7 +44,11 @@ impl Validator {
     }
 
     // As there are far too many key word combinations in Gaussian16,
-    // check only for a `#` followed by a single letter.
+    // check only for a `#` followed by a single letter. Allow g16 to
+    // fail if invalid key_words are provided.
+    //
+    // Note: If a key word is required for your program, delegate the
+    // validation of said key word to the caller (ie. do not edit this).
     fn validate_key_words(config: &GaussConfig) -> Result<(), ConfigError> {
         let key_regex = Regex::new(r"#(?i)[A-Z]{1}").unwrap();
         let error = ConfigError::new(ConfigErrorKind::KeyWords);
@@ -56,7 +59,7 @@ impl Validator {
 
     // GPU may have several correct regex matches. Therefore, this
     // function iterates over a set of regex and returns an error
-    // on zero mathces or more than one match.
+    // on zero matches or more than one match.
     fn validate_gpu(config: &GaussConfig) -> Result<(), ConfigError> {
         let set = RegexSet::new(&[
             r"^[0-9],([0-9],)+[0-9]=[0-9],([0-9],)+[0-9]",
@@ -73,7 +76,7 @@ impl Validator {
         }
     }
 
-    // validation function, returen an error if to_match does not match the
+    // validation function, return an error if to_match does not match the
     // regex provided by the calling function. Otherwise, this function will
     // return Ok(()).
     fn validate(to_match: String, regex: Regex, error: ConfigError) -> Result<(), ConfigError> {
