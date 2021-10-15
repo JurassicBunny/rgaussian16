@@ -104,16 +104,16 @@ impl Gaussian {
 
     // Gaussian16 may be run with gpus. This function checks the config file for Some(gpu) string.
     // If provided, generate gpu input string. Otherwise, return cpu only input.
-    fn display(&self) -> String {
-        match &self.config.gpu {
+    fn display(self) -> String {
+        match self.config.gpu {
             Some(gpu) => self.gpu_output(gpu),
             None => self.cpu_output(),
         }
     }
 
     // generates gpu input string
-    fn gpu_output(&self, gpu: &String) -> String {
-        let result = format!(
+    fn gpu_output(&self, gpu: String) -> String {
+        format_args!(
             "%Mem={}\n%Cpu={}\n%Gpu={}\n%Check={}\n{}\n\n {}\n\n{} {}",
             self.config.mem,
             self.config.cpu,
@@ -123,13 +123,13 @@ impl Gaussian {
             self.config.title,
             self.config.charge,
             self.config.multiplicity
-        );
-        result
+        )
+        .to_string()
     }
 
     // generates cpu input string
     fn cpu_output(&self) -> String {
-        let result = format!(
+        format_args!(
             "%Mem={}\n%Cpu={}\n%Check={}\n{}\n\n {}\n\n{} {}",
             self.config.mem,
             self.config.cpu,
@@ -138,8 +138,8 @@ impl Gaussian {
             self.config.title,
             self.config.charge,
             self.config.multiplicity
-        );
-        result
+        )
+        .to_string()
     }
 }
 
