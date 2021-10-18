@@ -21,7 +21,7 @@ use serde::Deserialize;
 //
 // 0 1
 // molecular coords
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, PartialEq)]
 pub(crate) struct GaussConfig {
     pub(crate) mem: String,
     pub(crate) cpu: String,
@@ -67,7 +67,7 @@ pub(crate) struct GaussConfig {
 ///
 ///
 ///
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Gaussian {
     config: GaussConfig,
 }
