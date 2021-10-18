@@ -4,7 +4,8 @@ use crate::validate::Validator;
 use std::fmt::Display;
 use std::fs::File;
 use std::io::prelude::*;
-use std::process::Command;
+use std::os::unix::io::{FromRawFd, IntoRawFd};
+use std::process::{Command, Stdio};
 
 use serde::Deserialize;
 
@@ -90,8 +91,23 @@ impl Gaussian {
         file.write_all(self.to_string().as_bytes())
     }
 
-    pub fn run(input: File, output: File) -> Result<(), std::io::Error> {
-        Command::new("g16").stdin()
+    /// Run Gaussian16 given the input and output files. As this function requires
+    /// the use of raw file descriptors, an unsafe code block is use to convert
+    /// between the files provided by the user in the run function parameters into raw
+    /// file descriptors. Returns the exit status of Gaussian16 or an io error.
+    pub fn run(input: File, output: File) -> Result<std::process::ExitStatus, std::io::Error> {
+        let (input, output) = unsafe {
+            (
+                Stdio::from_raw_fd(input.into_raw_fd()),
+                Stdio::from_raw_fd(output.into_raw_fd()),
+            )
+        };
+        Command::new("g16")
+            .stdin(input)
+            .stdout(output)
+            .spawn()
+            .unwrap()
+            .wait()
     }
 
     // parse the configuration file and return either a GaussConfig or an Error.
@@ -104,9 +120,9 @@ impl Gaussian {
 
     // Gaussian16 may be run with gpus. This function checks the config file for Some(gpu) string.
     // If provided, generate gpu input string. Otherwise, return cpu only input.
-    fn display(self) -> String {
-        match self.config.gpu {
-            Some(gpu) => self.gpu_output(gpu),
+    fn display(&self) -> String {
+        match &self.config.gpu {
+            Some(gpu) => self.gpu_output(gpu.to_string()),
             None => self.cpu_output(),
         }
     }
