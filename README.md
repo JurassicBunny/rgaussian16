@@ -16,7 +16,7 @@ package.
    use rgaussian16::Gaussion;
 
    fn main() {
-      let input_file = std::fs::File::create("input.com").unwrap();
+     let input_file = std::fs::File::create("input.com").unwrap();
      let output_file = std::fs::File::create("output.out").unwrap();
   
      let job1_config = std::fs::File::open("config.yaml").unwrap();
