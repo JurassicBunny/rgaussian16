@@ -6,6 +6,7 @@ repository = "https://github.com/JurassicBunny/rgaussian16"
 license = "MIT"
 license-file = "LICENSE"
 readme = "README.md"
+discription = "Interface for the Gaussian16 quantum chemical package. This structure provides functions for auto generating input, and running the external program g16."
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
