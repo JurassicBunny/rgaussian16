@@ -11,8 +11,9 @@ package.
 
  Generate Gaussian object write input and run `g16`:
  
-``rust
-  use rgaussian16::Gaussion;
+```rust
+
+   use rgaussian16::Gaussion;
 
    fn main() {
       let input_file = std::fs::File::create("input.com").unwrap();
