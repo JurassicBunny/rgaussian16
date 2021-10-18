@@ -59,8 +59,8 @@ pub(crate) struct GaussConfig {
 ///     let job1_config = std::fs::File::open("config.yaml").unwrap();
 ///     let job1_interface = Gaussion::new(config).unwrap();
 ///
-///     job1_interface.gen_input(input_file);
-///     job1_interface.run(input_file, output_file);
+///     job1_interface.gen_input(input_file).unwrap();
+///     job1_interface.run(input_file, output_file).unwrap();
 /// }
 /// ```
 /// --------------------------------------------------------
