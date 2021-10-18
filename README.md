@@ -9,8 +9,8 @@ package.
 
 # Example
 
- Generate Gaussian object write input and run `g16`
- --------------------------------------------------------
+ Generate Gaussian object write input and run `g16`:
+ 
 ``rust
  use rgaussian16::Gaussion;
 
@@ -25,4 +25,3 @@ package.
      job1_interface.run(input_file, output_file).unwrap();
    }
 ```
---------------------------------------------------------
