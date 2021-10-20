@@ -31,6 +31,8 @@ input for gpu targeted calculations, replace `~` with the appropriate string. Fo
 example, changing the above configurations gpu field to `"0=0"` will instruct Gaussian16 
 to utilize one gpu controlled by cpu number 0.
 
+For more information about running Gaussain16 with gpus, please read: <https://gaussian.com/gpu/>
+
 # Example Usage
 
  Generate Gaussian object write input and run `g16`:
