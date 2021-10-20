@@ -87,7 +87,7 @@ impl Gaussian {
     /// it is up to the user to attach coordinates and any other additional
     /// information such as ModRedundant coords to the end of the generated
     /// output.
-    pub fn gen_input(self, mut file: File) -> Result<(), std::io::Error> {
+    pub fn gen_input(&self, mut file: &File) -> Result<(), std::io::Error> {
         file.write_all(self.to_string().as_bytes())
     }
 
@@ -96,7 +96,7 @@ impl Gaussian {
     /// between the files provided by the user in the run function parameters into raw
     /// file descriptors. Returns the exit status of Gaussian16 or an io error.
     pub fn run(
-        self,
+        &self,
         input: File,
         output: File,
     ) -> Result<std::process::ExitStatus, std::io::Error> {
