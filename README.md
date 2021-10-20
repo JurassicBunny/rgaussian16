@@ -1,11 +1,27 @@
+# rgaussian16
+
 Interface for the Gaussian16 quantum chemical package.
 This structure provides functions for auto generating input, and
 running the external program `g16`.
 
 As configuration is tied to Gaussian, multiple Gaussian objects may
-be use to extract different result form Gaussian16. This greatly 
+be used to extract different results form Gaussian16. This greatly 
 simplifies the processes of interfacing with the quantum chemical
 package.
+
+# Configuration 
+
+```yaml
+---
+mem: "136GB"
+cpu: "0-47"
+gpu: ~
+checkpoint: "output.chk"
+key_words: "#p WB97XD/Def2tzvpp SCF=XQC"
+title: "single point"
+charge: 0
+multiplicity: 3
+```
 
 # Example
 
