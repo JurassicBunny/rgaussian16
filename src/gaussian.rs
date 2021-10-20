@@ -130,7 +130,7 @@ impl Gaussian {
     // generates gpu input string
     fn gpu_output(&self, gpu: String) -> String {
         format_args!(
-            "%Mem={}\n%Cpu={}\n%Gpu={}\n%Chk={}\n{}\n\n{}\n\n{} {}",
+            "%Mem={}\n%Cpu={}\n%GpuCpu={}\n%Chk={}\n{}\n\n{}\n\n{} {}",
             self.config.mem,
             self.config.cpu,
             gpu,
