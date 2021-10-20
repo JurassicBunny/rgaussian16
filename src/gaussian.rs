@@ -51,16 +51,18 @@ pub(crate) struct GaussConfig {
 /// --------------------------------------------------------
 /// ```rust
 /// use rgaussian16::Gaussion;
+/// use anyhow::Result;
 ///
-/// fn main() {
-///     let input_file = std::fs::File::create("input.com").unwrap();
-///     let output_file = std::fs::File::create("output.out").unwrap();
+/// fn main() -> Result<()> {
+///     let input_file = std::fs::File::create("input.com")?;
+///     let output_file = std::fs::File::create("output.out")?;
 ///
-///     let job1_config = std::fs::File::open("config.yaml").unwrap();
-///     let job1_interface = Gaussion::new(config).unwrap();
+///     let job1_config = std::fs::File::open("config.yaml")?;
+///     let job1_interface = Gaussion::new(config)?;
 ///
-///     job1_interface.gen_input(input_file).unwrap();
-///     job1_interface.run(input_file, output_file).unwrap();
+///     job1_interface.gen_input(input_file)?;
+///     job1_interface.run(input_file, output_file)?;
+///     Ok(())
 /// }
 /// ```
 /// --------------------------------------------------------
