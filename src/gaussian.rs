@@ -95,7 +95,11 @@ impl Gaussian {
     /// the use of raw file descriptors, an unsafe code block is use to convert
     /// between the files provided by the user in the run function parameters into raw
     /// file descriptors. Returns the exit status of Gaussian16 or an io error.
-    pub fn run(input: File, output: File) -> Result<std::process::ExitStatus, std::io::Error> {
+    pub fn run(
+        self,
+        input: File,
+        output: File,
+    ) -> Result<std::process::ExitStatus, std::io::Error> {
         let (input, output) = unsafe {
             (
                 Stdio::from_raw_fd(input.into_raw_fd()),
