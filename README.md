@@ -45,12 +45,15 @@ For more information about running Gaussain16 with gpus, please read: <https://g
 
      let input_file = std::fs::File::create("input.com")?;
      let output_file = std::fs::File::create("output.out")?;
+     
   
      let job1_config = std::fs::File::open("config.yaml")?;
      let job1_interface = Gaussion::new(config)?;
  
-     job1_interface.gen_input(input_file)?;
-     job1_interface.run(input_file, output_file)?;
+     job1_interface.gen_input(&input_file)?;
+     
+     let input = std::fs::File::open("input.com")?;
+     job1_interface.run(input, output_file)?;
 
 	 Ok(())
    }
