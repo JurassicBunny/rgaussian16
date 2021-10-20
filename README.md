@@ -11,6 +11,9 @@ package.
 
 # Configuration 
 
+An example configuration file.
+
+config.yaml:
 ```yaml
 ---
 mem: "136GB"
@@ -22,6 +25,11 @@ title: "single point"
 charge: 0
 multiplicity: 3
 ```
+
+Gaussian16 may be run with graphical processing units (gpus). In-order to generate 
+input for gpu targeted calculations, replace `~` with the appropriate string. For 
+example, changing the above configurations gpu field to `"0=0"` will instruct Gaussian16 
+to utilize one gpu controlled by cpu number 0.
 
 # Example
 
