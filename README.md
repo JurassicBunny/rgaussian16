@@ -1,6 +1,6 @@
 # rgaussian16
 
-Interface for the Gaussian16 quantum chemical package [Gaussian16](https://gaussian.com/gaussian16/).
+Interface for the Gaussian16 [Gaussian16](https://gaussian.com/gaussian16/) quantum chemical package.
 This structure provides functions for auto generating input, and
 running the external program `g16`.
 
