@@ -1,6 +1,6 @@
 # rgaussian16
 
-Interface for the Gaussian16 quantum chemical package.
+Interface for the Gaussian16 quantum chemical package [Gaussian16](https://gaussian.com/gaussian16/).
 This structure provides functions for auto generating input, and
 running the external program `g16`.
 
@@ -39,14 +39,17 @@ to utilize one gpu controlled by cpu number 0.
 
    use rgaussian16::Gaussion;
 
-   fn main() {
-     let input_file = std::fs::File::create("input.com").unwrap();
-     let output_file = std::fs::File::create("output.out").unwrap();
+   fn main() -> Result<()> {
+
+     let input_file = std::fs::File::create("input.com")?;
+     let output_file = std::fs::File::create("output.out")?;
   
-     let job1_config = std::fs::File::open("config.yaml").unwrap();
-     let job1_interface = Gaussion::new(config).unwrap();
+     let job1_config = std::fs::File::open("config.yaml")?;
+     let job1_interface = Gaussion::new(config)?;
  
-     job1_interface.gen_input(input_file).unwrap();
-     job1_interface.run(input_file, output_file).unwrap();
+     job1_interface.gen_input(input_file)?;
+     job1_interface.run(input_file, output_file)?;
+
+	 Ok(())
    }
 ```
